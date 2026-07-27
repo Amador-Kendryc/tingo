@@ -1,0 +1,55 @@
+name: Compilar APKs Tingo ($0/Mes)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Configurar Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x'
+          channel: 'stable'
+
+      - name: Instalar dependencias
+        run: |
+          cd mobile
+          flutter pub get
+
+      - name: Compilar APK Pasajero
+        run: |
+          cd mobile
+          flutter build apk --target=lib/passenger_app/main_passenger.dart --release
+
+      - name: Renombrar APK Pasajero
+        run: mv mobile/build/app/outputs/flutter-apk/app-release.apk mobile/build/app/outputs/flutter-apk/Tingo_Pasajero.apk
+
+      - name: Compilar APK Conductor
+        run: |
+          cd mobile
+          flutter build apk --target=lib/driver_app/main_driver.dart --release
+
+      - name: Renombrar APK Conductor
+        run: mv mobile/build/app/outputs/flutter-apk/app-release.apk mobile/build/app/outputs/flutter-apk/Tingo_Conductor.apk
+
+      - name: Subir APKs creados como artefactos de descarga
+        uses: actions/upload-artifact@v3
+        with:
+          name: Tingo_APKs_Android
+          path: |
+            mobile/build/app/outputs/flutter-apk/Tingo_Pasajero.apk
+            mobile/build/app/outputs/flutter-apk/Tingo_Conductor.apk
