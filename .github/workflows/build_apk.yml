@@ -45,8 +45,3 @@ jobs:
           name: Tingo_APKs_Android
           path: |
             **/output_apks/*.apk
-            **/*.apk
-          name: Tingo_APKs_Android
-          path: |
-            **/output_apks/*.apk
-            **/*.apk
