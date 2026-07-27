@@ -28,20 +28,24 @@ jobs:
         run: |
           if [ -d "mobile" ]; then cd mobile; fi
           flutter pub get
-          flutter build apk --target=lib/passenger_app/main_passenger.dart --release
+          flutter build apk --target=lib/passenger_app/main_passenger.dart --debug
           mkdir -p output_apks
-          cp build/app/outputs/flutter-apk/app-release.apk output_apks/Tingo_Pasajero.apk
+          cp build/app/outputs/flutter-apk/app-debug.apk output_apks/Tingo_Pasajero.apk
 
       - name: Compilar APK Conductor
         run: |
           if [ -d "mobile" ]; then cd mobile; fi
-          flutter build apk --target=lib/driver_app/main_driver.dart --release
+          flutter build apk --target=lib/driver_app/main_driver.dart --debug
           mkdir -p output_apks
-          cp build/app/outputs/flutter-apk/app-release.apk output_apks/Tingo_Conductor.apk
+          cp build/app/outputs/flutter-apk/app-debug.apk output_apks/Tingo_Conductor.apk
 
       - name: Subir APKs creados como artefactos de descarga
         uses: actions/upload-artifact@v4
         with:
+          name: Tingo_APKs_Android
+          path: |
+            **/output_apks/*.apk
+            **/*.apk
           name: Tingo_APKs_Android
           path: |
             **/output_apks/*.apk
