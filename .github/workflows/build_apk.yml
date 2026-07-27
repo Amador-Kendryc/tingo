@@ -24,9 +24,10 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Instalar dependencias y compilar APK Pasajero
+      - name: Regenerar estructura Android y compilar APK Pasajero
         run: |
           if [ -d "mobile" ]; then cd mobile; fi
+          flutter create --platforms=android .
           flutter pub get
           flutter build apk --target=lib/passenger_app/main_passenger.dart --debug --no-tree-shake-icons
           mkdir -p output_apks
