@@ -28,14 +28,14 @@ jobs:
         run: |
           if [ -d "mobile" ]; then cd mobile; fi
           flutter pub get
-          flutter build apk --target=lib/passenger_app/main_passenger.dart --debug
+          flutter build apk --target=lib/passenger_app/main_passenger.dart --debug --no-tree-shake-icons
           mkdir -p output_apks
           cp build/app/outputs/flutter-apk/app-debug.apk output_apks/Tingo_Pasajero.apk
 
       - name: Compilar APK Conductor
         run: |
           if [ -d "mobile" ]; then cd mobile; fi
-          flutter build apk --target=lib/driver_app/main_driver.dart --debug
+          flutter build apk --target=lib/driver_app/main_driver.dart --debug --no-tree-shake-icons
           mkdir -p output_apks
           cp build/app/outputs/flutter-apk/app-debug.apk output_apks/Tingo_Conductor.apk
 
